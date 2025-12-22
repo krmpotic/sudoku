@@ -1,9 +1,8 @@
 #include <stdio.h>
 
 int check_solved(int field) {
-  int n, j;
-  j = 256;
-  for (n = 9; n > 0; n--) {
+  int j = 256;
+  for (int n = 9; n > 0; n--) {
     if (j == field) {
       return n;
     } else {
@@ -27,9 +26,8 @@ int main(int argc, char* argv[]) {
       {0, 0, 0, 6, 0, 0, 4, 5, 1},  //
   };
 
-  int n, m;
-  for (n = 0; n < 9; n++) {
-    for (m = 0; m < 9; m++) {
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
       table[n][m] = -1 * table[n][m];
       if (table[n][m] == 0) {
         table[n][m] = 511;
@@ -37,8 +35,8 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  for (n = 0; n < 9; n++) {
-    for (m = 0; m < 9; m++) {
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
       printf("%03d | ", table[n][m]);
     }
     printf("\n");
@@ -52,8 +50,8 @@ int main(int argc, char* argv[]) {
     int i, j;
     solved_flag = 1;
 
-    for (n = 0; n < 9; n++) {
-      for (m = 0; m < 9; m++) {
+    for (int n = 0; n < 9; n++) {
+      for (int m = 0; m < 9; m++) {
         if (table[n][m] < 0) {
           int value = (-1) * table[n][m];
           int bit = 1 << (value - 1);
@@ -94,15 +92,15 @@ int main(int argc, char* argv[]) {
   } while (num_changes != 0);
 
   if (solved_flag == 1) {
-    for (n = 0; n < 9; n++) {
-      for (m = 0; m < 9; m++) {
+    for (int n = 0; n < 9; n++) {
+      for (int m = 0; m < 9; m++) {
         table[n][m] = -1 * table[n][m];
       }
     }
   }
 
-  for (n = 0; n < 9; n++) {
-    for (m = 0; m < 9; m++) {
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
       printf("%3d | ", table[n][m]);
     }
     printf("\n");
