@@ -13,6 +13,16 @@ int check_solved(int field) {
   return 0;
 }
 
+void print_table(int table[9][9]) {
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
+      printf("%3d | ", table[n][m]);
+    }
+    printf("\n");
+  }
+  printf("\n");
+}
+
 int main(int argc, char* argv[]) {
   int table[9][9] = {
       {0, 8, 5, 0, 6, 7, 0, 0, 9},  //
@@ -35,13 +45,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  for (int n = 0; n < 9; n++) {
-    for (int m = 0; m < 9; m++) {
-      printf("%03d | ", table[n][m]);
-    }
-    printf("\n");
-  }
-  printf("\n");
+  print_table(table);
 
   int num_changes;
   int solved_flag;
@@ -99,12 +103,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  for (int n = 0; n < 9; n++) {
-    for (int m = 0; m < 9; m++) {
-      printf("%3d | ", table[n][m]);
-    }
-    printf("\n");
-  }
+  print_table(table);
 
   return 0;
 }
