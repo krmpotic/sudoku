@@ -64,9 +64,10 @@ void solve_table(int table[9][9]) {
             }
           }
 
-          for (int i = 3 * (int)(n / 3); i < 3 * (int)(n / 3) + 3;
-               i++) {  // SQUARE
-            for (int j = 3 * (int)(m / 3); j < 3 * (int)(m / 3) + 3; j++) {
+          const int is = 3 * (int)(n / 3);
+          const int js = 3 * (int)(m / 3);
+          for (int i = is; i < is + 3; i++) {  // SQUARE
+            for (int j = js; j < js + 3; j++) {
               if (table[i][j] > 0 && ((table[i][j] & bit) == bit)) {
                 table[i][j] = table[i][j] - bit;
                 num_changes += 1;
