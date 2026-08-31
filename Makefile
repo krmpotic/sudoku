@@ -6,5 +6,10 @@ run: sudoku
 
 clean:
 	rm -f sudoku
+	rm -f tests/*.out
 
-.PHONY: clean run
+test: sudoku
+	cat tests/0.in | ./sudoku > tests/0.out
+	diff tests/0.out tests/0.exp || echo FAIL
+
+.PHONY: clean run test
