@@ -72,12 +72,9 @@ void solve_table(int table[9][9]) {
               }
             }
           }
-        } else {
-          int solved = check_solved(table[n][m]);
-          if (solved) {
+        } else if (int solved = check_solved(table[n][m])) {
             table[n][m] = -1 * solved;
             num_changes += 1;
-          }
         }
       }
     }
