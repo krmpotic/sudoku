@@ -12,25 +12,26 @@ int check_solved(int field) {
 void print_table(int table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
-      printf("%3d | ", table[n][m]);
+      printf("%d", table[n][m]);
+      if (m < 8) {
+	      printf(" ");
+      }
     }
     printf("\n");
   }
-  printf("\n");
+}
+
+void read_table(int table[9][9]) {
+  for (int i = 0; i < 9; i++) {
+    for (int j = 0; j < 9; j++) {
+      scanf("%d", &table[i][j]);
+    }
+  }
 }
 
 int main(int argc, char* argv[]) {
-  int table[9][9] = {
-      {0, 8, 5, 0, 6, 7, 0, 0, 9},  //
-      {0, 0, 0, 0, 0, 0, 0, 0, 0},  //
-      {7, 3, 1, 4, 0, 0, 0, 6, 5},  //
-      {0, 7, 0, 0, 1, 0, 0, 8, 0},  //
-      {0, 0, 3, 9, 2, 6, 0, 4, 0},  //
-      {2, 0, 0, 0, 4, 0, 1, 3, 0},  //
-      {0, 0, 2, 5, 3, 0, 0, 0, 0},  //
-      {0, 4, 0, 8, 9, 1, 6, 2, 0},  //
-      {0, 0, 0, 6, 0, 0, 4, 5, 1},  //
-  };
+  int table[9][9];
+  read_table(table);
 
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
@@ -40,8 +41,6 @@ int main(int argc, char* argv[]) {
       }
     }
   }
-
-  print_table(table);
 
   int num_changes;
   int solved_flag;
