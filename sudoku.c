@@ -12,12 +12,8 @@ int check_solved(int field) {
 void print_table(int table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
-      printf("%d", table[n][m]);
-      if (m < 8) {
-        printf(" ");
-      }
+      printf("%d%s", table[n][m], m < 8 ? " " : "\n");
     }
-    printf("\n");
   }
 }
 
