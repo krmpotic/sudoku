@@ -35,10 +35,7 @@ void solve_table(int table[9][9]) {
 
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
-      table[n][m] = -1 * table[n][m];
-      if (table[n][m] == 0) {
-        table[n][m] = 511;
-      }
+      table[n][m] = table[n][m] == 0 ? 0b111111111 : -1 * table[n][m];
     }
   }
 
