@@ -1,9 +1,11 @@
 #include <assert.h>
 #include <stdio.h>
 
+#define BIT(n) (1 << (n - 1))
+
 int check_solved(int field) {
   for (int n = 9; n > 0; n--) {
-    if (1 << (n - 1) == field) {
+    if (BIT(n) == field) {
       return n;
     }
   }
@@ -46,8 +48,7 @@ void solve_table(int table[9][9]) {
     for (int n = 0; n < 9; n++) {
       for (int m = 0; m < 9; m++) {
         if (table[n][m] < 0) {
-          int value = (-1) * table[n][m];
-          int bit = 1 << (value - 1);
+          const int bit = BIT((-1) * table[n][m]);
 
           for (int i = 0; i < 9; i++) {  // COLUMN
             if (table[i][m] > 0 && ((table[i][m] & bit) == bit)) {
