@@ -40,10 +40,8 @@ void solve_table(int table[9][9]) {
   }
 
   int num_changes;
-  int solved_flag;
   do {
     num_changes = 0;
-    solved_flag = 1;
 
     for (int n = 0; n < 9; n++) {
       for (int m = 0; m < 9; m++) {
@@ -79,19 +77,15 @@ void solve_table(int table[9][9]) {
           if (solved) {
             table[n][m] = -1 * solved;
             num_changes += 1;
-          } else {
-            solved_flag = 0;
           }
         }
       }
     }
   } while (num_changes != 0);
 
-  if (solved_flag == 1) {
-    for (int n = 0; n < 9; n++) {
-      for (int m = 0; m < 9; m++) {
-        table[n][m] = -1 * table[n][m];
-      }
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
+      table[n][m] = table[n][m] < 0 ? -1 * table[n][m] : 0;
     }
   }
 }
