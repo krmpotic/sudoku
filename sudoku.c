@@ -14,7 +14,7 @@ void print_table(int table[9][9]) {
     for (int m = 0; m < 9; m++) {
       printf("%d", table[n][m]);
       if (m < 8) {
-	      printf(" ");
+        printf(" ");
       }
     }
     printf("\n");
@@ -29,10 +29,7 @@ void read_table(int table[9][9]) {
   }
 }
 
-int main(int argc, char* argv[]) {
-  int table[9][9];
-  read_table(table);
-
+void solve_table(int table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
       table[n][m] = -1 * table[n][m];
@@ -97,7 +94,12 @@ int main(int argc, char* argv[]) {
       }
     }
   }
+}
 
+int main(int argc, char* argv[]) {
+  int table[9][9];
+  read_table(table);
+  solve_table(table);
   print_table(table);
 
   return 0;
