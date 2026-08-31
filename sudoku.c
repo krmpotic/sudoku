@@ -1,15 +1,11 @@
 #include <stdio.h>
 
 int check_solved(int field) {
-  int j = 256;
   for (int n = 9; n > 0; n--) {
-    if (j == field) {
+    if (1 << (n - 1) == field) {
       return n;
-    } else {
-      j = j / 2;
     }
   }
-
   return 0;
 }
 
