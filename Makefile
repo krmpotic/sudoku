@@ -1,5 +1,5 @@
 sudoku: sudoku.c
-	gcc sudoku.c -o sudoku
+	gcc -g -O0 sudoku.c -o sudoku
 
 run: sudoku
 	./sudoku

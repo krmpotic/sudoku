@@ -1,18 +1,9 @@
 #include <assert.h>
+#include <stdbit.h>
+#include <stdint.h>
 #include <stdio.h>
 
-#define BIT(n) (1 << (n - 1))
-
-int check_solved(int field) {
-  for (int n = 9; n > 0; n--) {
-    if (BIT(n) == field) {
-      return n;
-    }
-  }
-  return 0;
-}
-
-void print_table(int table[9][9]) {
+void print_table(uint16_t table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
       printf("%d%s", table[n][m], m < 8 ? " " : "\n");
@@ -20,7 +11,7 @@ void print_table(int table[9][9]) {
   }
 }
 
-void read_table(int table[9][9]) {
+void read_table(uint16_t table[9][9]) {
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++) {
       scanf("%d", &table[i][j]);
@@ -28,7 +19,7 @@ void read_table(int table[9][9]) {
   }
 }
 
-void solve_table(int table[9][9]) {
+void solve_table(uint16_t table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
       assert(table[n][m] >= 0 && table[n][m] <= 9);
@@ -37,7 +28,8 @@ void solve_table(int table[9][9]) {
 
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
-      table[n][m] = table[n][m] == 0 ? 0b111111111 : -1 * table[n][m];
+      table[n][m] =
+          table[n][m] == 0 ? ((1 << 9) - 1) : (1 << (table[n][m] - 1));
     }
   }
 
@@ -47,36 +39,35 @@ void solve_table(int table[9][9]) {
 
     for (int n = 0; n < 9; n++) {
       for (int m = 0; m < 9; m++) {
-        if (table[n][m] < 0) {
-          const int bit = BIT((-1) * table[n][m]);
+        const uint16_t bit = table[n][m];
+        if (stdc_count_ones(bit) != 1) continue;
 
-          for (int i = 0; i < 9; i++) {  // COLUMN
-            if (table[i][m] > 0 && ((table[i][m] & bit) == bit)) {
-              table[i][m] = table[i][m] - bit;
+        for (int i = 0; i < 9; i++) {  // COLUMN
+          if (i == n) continue;
+          if (table[i][m] & bit) {
+            table[i][m] = table[i][m] - bit;
+            change = 1;
+          }
+        }
+
+        for (int j = 0; j < 9; j++) {  // ROW
+          if (j == m) continue;
+          if (table[n][j] & bit) {
+            table[n][j] = table[n][j] - bit;
+            change = 1;
+          }
+        }
+
+        const int is = 3 * (int)(n / 3);
+        const int js = 3 * (int)(m / 3);
+        for (int i = is; i < is + 3; i++) {  // SQUARE
+          for (int j = js; j < js + 3; j++) {
+            if (i == n && j == m) continue;
+            if (table[i][j] & bit) {
+              table[i][j] = table[i][j] - bit;
               change = 1;
             }
           }
-
-          for (int j = 0; j < 9; j++) {  // ROW
-            if (table[n][j] > 0 && ((table[n][j] & bit) == bit)) {
-              table[n][j] = table[n][j] - bit;
-              change = 1;
-            }
-          }
-
-          const int is = 3 * (int)(n / 3);
-          const int js = 3 * (int)(m / 3);
-          for (int i = is; i < is + 3; i++) {  // SQUARE
-            for (int j = js; j < js + 3; j++) {
-              if (table[i][j] > 0 && ((table[i][j] & bit) == bit)) {
-                table[i][j] = table[i][j] - bit;
-                change = 1;
-              }
-            }
-          }
-        } else if (int solved = check_solved(table[n][m])) {
-          table[n][m] = -1 * solved;
-          change += 1;
         }
       }
     }
@@ -84,13 +75,15 @@ void solve_table(int table[9][9]) {
 
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
-      table[n][m] = table[n][m] < 0 ? -1 * table[n][m] : 0;
+      table[n][m] = stdc_count_ones(table[n][m]) == 1
+                        ? stdc_trailing_zeros_ui(table[n][m]) + 1
+                        : 0;
     }
   }
 }
 
 int main(int argc, char* argv[]) {
-  int table[9][9];
+  uint16_t table[9][9];
   read_table(table);
   solve_table(table);
   print_table(table);
