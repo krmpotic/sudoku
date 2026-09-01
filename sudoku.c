@@ -41,9 +41,9 @@ void solve_table(int table[9][9]) {
     }
   }
 
-  int num_changes;
+  int change;
   do {
-    num_changes = 0;
+    change = 0;
 
     for (int n = 0; n < 9; n++) {
       for (int m = 0; m < 9; m++) {
@@ -53,14 +53,14 @@ void solve_table(int table[9][9]) {
           for (int i = 0; i < 9; i++) {  // COLUMN
             if (table[i][m] > 0 && ((table[i][m] & bit) == bit)) {
               table[i][m] = table[i][m] - bit;
-              num_changes += 1;
+              change = 1;
             }
           }
 
           for (int j = 0; j < 9; j++) {  // ROW
             if (table[n][j] > 0 && ((table[n][j] & bit) == bit)) {
               table[n][j] = table[n][j] - bit;
-              num_changes += 1;
+              change = 1;
             }
           }
 
@@ -70,17 +70,17 @@ void solve_table(int table[9][9]) {
             for (int j = js; j < js + 3; j++) {
               if (table[i][j] > 0 && ((table[i][j] & bit) == bit)) {
                 table[i][j] = table[i][j] - bit;
-                num_changes += 1;
+                change = 1;
               }
             }
           }
         } else if (int solved = check_solved(table[n][m])) {
-            table[n][m] = -1 * solved;
-            num_changes += 1;
+          table[n][m] = -1 * solved;
+          change += 1;
         }
       }
     }
-  } while (num_changes != 0);
+  } while (change != 0);
 
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
