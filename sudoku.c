@@ -14,7 +14,7 @@ void print_table(uint16_t table[9][9]) {
 void read_table(uint16_t table[9][9]) {
   for (int i = 0; i < 9; i++) {
     for (int j = 0; j < 9; j++) {
-      scanf("%d", &table[i][j]);
+      scanf("%hd", &table[i][j]);
     }
   }
 }
@@ -82,7 +82,7 @@ void solve_table(uint16_t table[9][9]) {
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int, char*[]) {
   uint16_t table[9][9];
   read_table(table);
   solve_table(table);
