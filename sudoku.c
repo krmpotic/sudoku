@@ -40,7 +40,7 @@ void solve_table(uint16_t table[9][9]) {
     for (int n = 0; n < 9; n++) {
       for (int m = 0; m < 9; m++) {
         const uint16_t bit = table[n][m];
-        if (stdc_count_ones(bit) != 1)
+        if (!stdc_has_single_bit(bit))
           continue;
 
         for (int i = 0; i < 9; i++) { // COLUMN
