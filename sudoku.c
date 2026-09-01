@@ -19,6 +19,13 @@ void read_table(uint16_t table[9][9]) {
   }
 }
 
+// not atomic
+uint16_t clear_bits(uint16_t *x, uint16_t b) {
+  uint16_t r = *x & b;
+  *x &= ~b;
+  return r;
+}
+
 void solve_table(uint16_t table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
@@ -46,19 +53,13 @@ void solve_table(uint16_t table[9][9]) {
         for (int i = 0; i < 9; i++) { // COLUMN
           if (i == n)
             continue;
-          if (table[i][m] & bit) {
-            table[i][m] = table[i][m] - bit;
-            change = true;
-          }
+          change |= clear_bits(&table[i][m], bit);
         }
 
         for (int j = 0; j < 9; j++) { // ROW
           if (j == m)
             continue;
-          if (table[n][j] & bit) {
-            table[n][j] = table[n][j] - bit;
-            change = true;
-          }
+          change |= clear_bits(&table[n][j], bit);
         }
 
         const int is = 3 * (int)(n / 3);
@@ -67,10 +68,7 @@ void solve_table(uint16_t table[9][9]) {
           for (int j = js; j < js + 3; j++) {
             if (i == n && j == m)
               continue;
-            if (table[i][j] & bit) {
-              table[i][j] = table[i][j] - bit;
-              change = true;
-            }
+            change |= clear_bits(&table[i][j], bit);
           }
         }
       }
