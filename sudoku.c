@@ -59,7 +59,7 @@ void to_hooman_representation(uint16_t table[ROWS][COLS]) {
   }
 }
 
-bool clear_row(uint16_t table[ROWS][COLS], int n, int m) {
+bool _clear_row(uint16_t table[ROWS][COLS], int n, int m) {
   bool change = false;
   for (int j = 0; j < COLS; j++) {
     if (j == m)
@@ -69,7 +69,7 @@ bool clear_row(uint16_t table[ROWS][COLS], int n, int m) {
   return change;
 }
 
-bool clear_col(uint16_t table[ROWS][COLS], int n, int m) {
+bool _clear_col(uint16_t table[ROWS][COLS], int n, int m) {
   bool change = false;
   for (int i = 0; i < ROWS; i++) { // COLUMN
     if (i == n)
@@ -79,7 +79,7 @@ bool clear_col(uint16_t table[ROWS][COLS], int n, int m) {
   return change;
 }
 
-bool clear_sqr(uint16_t table[ROWS][COLS], int n, int m) {
+bool _clear_sqr(uint16_t table[ROWS][COLS], int n, int m) {
   bool change = false;
   const int is = INR_ROWS * (int)(n / INR_ROWS);
   const int js = INR_COLS * (int)(m / INR_COLS);
@@ -93,28 +93,29 @@ bool clear_sqr(uint16_t table[ROWS][COLS], int n, int m) {
   return change;
 }
 
-bool clear_row_col_square(uint16_t table[ROWS][COLS], int n, int m) {
-  const uint16_t bit = table[n][m];
-  if (!stdc_has_single_bit(bit))
-    return false;
-
+bool _clear_row_col_square(uint16_t table[ROWS][COLS], int n, int m) {
   bool change = false;
-  change |= clear_row(table, n, m);
-  change |= clear_col(table, n, m);
-  change |= clear_sqr(table, n, m);
+  change |= _clear_row(table, n, m);
+  change |= _clear_col(table, n, m);
+  change |= _clear_sqr(table, n, m);
+  return change;
+}
+
+bool solve_bit_table_one_pass(uint16_t table[ROWS][COLS]) {
+  bool change = false;
+  for (int n = 0; n < ROWS; n++) {
+    for (int m = 0; m < COLS; m++) {
+      if (!stdc_has_single_bit(table[n][m]))
+        continue;
+      change |= _clear_row_col_square(table, n, m);
+    }
+  }
   return change;
 }
 
 void solve_bit_table(uint16_t table[ROWS][COLS]) {
-  bool change;
-  do {
-    change = false;
-    for (int n = 0; n < ROWS; n++) {
-      for (int m = 0; m < COLS; m++) {
-        change |= clear_row_col_square(table, n, m);
-      }
-    }
-  } while (change);
+  while (solve_bit_table_one_pass(table)) {
+  };
 }
 
 void solve_table(uint16_t table[ROWS][COLS]) {
