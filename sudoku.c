@@ -26,6 +26,25 @@ uint16_t clear_bits(uint16_t *x, uint16_t b) {
   return r;
 }
 
+void to_bit_representation(uint16_t table[9][9]) {
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
+      table[n][m] =
+          table[n][m] == 0 ? ((1 << 9) - 1) : (1 << (table[n][m] - 1));
+    }
+  }
+}
+
+void to_hooman_representation(uint16_t table[9][9]) {
+  for (int n = 0; n < 9; n++) {
+    for (int m = 0; m < 9; m++) {
+      table[n][m] = stdc_count_ones(table[n][m]) == 1
+                        ? stdc_trailing_zeros_ui(table[n][m]) + 1
+                        : 0;
+    }
+  }
+}
+
 void solve_table(uint16_t table[9][9]) {
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
@@ -33,12 +52,7 @@ void solve_table(uint16_t table[9][9]) {
     }
   }
 
-  for (int n = 0; n < 9; n++) {
-    for (int m = 0; m < 9; m++) {
-      table[n][m] =
-          table[n][m] == 0 ? ((1 << 9) - 1) : (1 << (table[n][m] - 1));
-    }
-  }
+  to_bit_representation(table);
 
   bool change;
   do {
@@ -75,13 +89,7 @@ void solve_table(uint16_t table[9][9]) {
     }
   } while (change);
 
-  for (int n = 0; n < 9; n++) {
-    for (int m = 0; m < 9; m++) {
-      table[n][m] = stdc_count_ones(table[n][m]) == 1
-                        ? stdc_trailing_zeros_ui(table[n][m]) + 1
-                        : 0;
-    }
-  }
+  to_hooman_representation(table);
 }
 
 int main(int, char *[]) {
