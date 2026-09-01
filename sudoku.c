@@ -33,45 +33,49 @@ void solve_table(uint16_t table[9][9]) {
     }
   }
 
-  int change;
+  bool change;
   do {
-    change = 0;
+    change = false;
 
     for (int n = 0; n < 9; n++) {
       for (int m = 0; m < 9; m++) {
         const uint16_t bit = table[n][m];
-        if (stdc_count_ones(bit) != 1) continue;
+        if (stdc_count_ones(bit) != 1)
+          continue;
 
-        for (int i = 0; i < 9; i++) {  // COLUMN
-          if (i == n) continue;
+        for (int i = 0; i < 9; i++) { // COLUMN
+          if (i == n)
+            continue;
           if (table[i][m] & bit) {
             table[i][m] = table[i][m] - bit;
-            change = 1;
+            change = true;
           }
         }
 
-        for (int j = 0; j < 9; j++) {  // ROW
-          if (j == m) continue;
+        for (int j = 0; j < 9; j++) { // ROW
+          if (j == m)
+            continue;
           if (table[n][j] & bit) {
             table[n][j] = table[n][j] - bit;
-            change = 1;
+            change = true;
           }
         }
 
         const int is = 3 * (int)(n / 3);
         const int js = 3 * (int)(m / 3);
-        for (int i = is; i < is + 3; i++) {  // SQUARE
+        for (int i = is; i < is + 3; i++) { // SQUARE
           for (int j = js; j < js + 3; j++) {
-            if (i == n && j == m) continue;
+            if (i == n && j == m)
+              continue;
             if (table[i][j] & bit) {
               table[i][j] = table[i][j] - bit;
-              change = 1;
+              change = true;
             }
           }
         }
       }
     }
-  } while (change != 0);
+  } while (change);
 
   for (int n = 0; n < 9; n++) {
     for (int m = 0; m < 9; m++) {
@@ -82,7 +86,7 @@ void solve_table(uint16_t table[9][9]) {
   }
 }
 
-int main(int, char*[]) {
+int main(int, char *[]) {
   uint16_t table[9][9];
   read_table(table);
   solve_table(table);
